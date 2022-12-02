@@ -3,7 +3,11 @@ import styled from "styled-components";
 import { UserAction } from "../type/tictactoe";
 
 const StyledUserBoxButton = styled.button`
-  padding: 15px;
+  font-size: 20px;
+  font-weight: 900;
+  min-height: 30px;
+  min-width: 30px;
+  flex: 1;
 `;
 
 const StyledRestartButton = styled.button`
@@ -18,20 +22,31 @@ const StyledStatusSection = styled.div`
   font-size: 16px;
 `;
 
+const StyledBoardRow = styled.div`
+  display: flex;
+`;
+
 const Board = () => {
   // const squares = Array(9).fill(null);
 
   const [squares, setSquares] = React.useState<Array<UserAction>>(
     Array(9).fill(null)
   );
-  // 🐨 We'll need the following bits of derived state:
-  // - nextValue ('X' or 'O')
-  // - winner ('X', 'O', or null)
-  // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
+
+  const [status, setStatus] = React.useState<String>("Game not started");
+  const [winner, setWinner] = React.useState<UserAction>(null);
+  const [nextValue, setNextValue] = React.useState<UserAction>("X");
 
   function selectSquare(square: number) {
-    console.log(square);
+    const squaresCopy = [...squares];
+    squaresCopy[square] = nextValue;
+    setSquares(squaresCopy);
+    setNextValue((prev) => (prev === "X" ? "O" : "X"));
   }
+
+  React.useEffect(() => {
+    console.log(squares);
+  }, [squares]);
 
   function restart() {}
 
@@ -46,22 +61,22 @@ const Board = () => {
   return (
     <div>
       {/* 🐨 put the status in the div below */}
-      <StyledStatusSection>STATUS</StyledStatusSection>
-      <div className="board-row">
+      <StyledStatusSection>{status}</StyledStatusSection>
+      <StyledBoardRow>
         {renderSquare(0)}
         {renderSquare(1)}
         {renderSquare(2)}
-      </div>
-      <div className="board-row">
+      </StyledBoardRow>
+      <StyledBoardRow>
         {renderSquare(3)}
         {renderSquare(4)}
         {renderSquare(5)}
-      </div>
-      <div className="board-row">
+      </StyledBoardRow>
+      <StyledBoardRow>
         {renderSquare(6)}
         {renderSquare(7)}
         {renderSquare(8)}
-      </div>
+      </StyledBoardRow>
       <StyledRestartButton onClick={restart}>Restart</StyledRestartButton>
     </div>
   );
