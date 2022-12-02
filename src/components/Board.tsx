@@ -43,15 +43,18 @@ const Board = () => {
     if (squares[square]) return;
     if (status) setStatus(false);
 
-    const squaresCopy = [...squares];
-    squaresCopy[square] = nextValue;
-    setSquares(squaresCopy);
-    setNextValue((prev) => (prev === "X" ? "O" : "X"));
-    
+    if (!winner) {
+      const squaresCopy = [...squares];
+      squaresCopy[square] = nextValue;
+      setSquares(squaresCopy);
+      setNextValue((prev) => (prev === "X" ? "O" : "X"));
+      setWinner(calculateWinner(squaresCopy));
+    }
   }
 
   function restart() {
     setSquares(Array(9).fill(null));
+    setWinner(null);
   }
 
   function renderSquare(i: number) {
@@ -62,11 +65,42 @@ const Board = () => {
     );
   }
 
+  function calculateWinner(squares: Array<UserAction>) {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (
+        squares[a] &&
+        squares[a] === squares[b] &&
+        squares[a] === squares[c]
+      ) {
+        return squares[a];
+      }
+    }
+    return null;
+  }
+
+  const getStatus = () => {
+    return !winner
+      ? `${nextValue}'s chance`
+      : nextValue === "X"
+      ? "O has won"
+      : "X has won";
+  };
+
   return (
     <StyledMainContainer>
-      {/* 🐨 put the status in the div below */}
       <StyledStatusSection>
-        {status ? "Game not started" : `${nextValue}'s chance`}
+        {status ? "Game not started" : getStatus()}
       </StyledStatusSection>
       <div>
         <StyledBoardRow>
