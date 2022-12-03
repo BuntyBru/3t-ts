@@ -79,6 +79,7 @@ const Board = () => {
       const historyCopy = [...history];
       historyCopy.push({
         valueArray: squares,
+        winner: winner,
         nextValue: nextValue,
       });
       setHistory(historyCopy);
@@ -102,7 +103,7 @@ const Board = () => {
   const getMoveDetails = (event: React.MouseEvent) => {
     setHistoryMode(true);
     let index = +(event.target as HTMLInputElement).value;
-
+    setWinner(history[index].winner);
     setSquares(history[index].valueArray);
     setNextValue(history[index].nextValue);
     setCurrentStep(index);
