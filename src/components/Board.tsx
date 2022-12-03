@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { UserAction } from "../type/tictactoe";
+import { UserAction, HistoryObj } from "../type/tictactoe";
 
 const StyledUserBoxButton = styled.button`
   font-size: 20px;
@@ -27,7 +27,22 @@ const StyledBoardRow = styled.div`
 `;
 
 const StyledMainContainer = styled.div`
-  min-width: 200px;
+  min-width: 420px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+`;
+
+const StyledPlaySection = styled.div`
+  flex: 1;
+`;
+
+const StyledHistorySection = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const Board = () => {
@@ -38,12 +53,19 @@ const Board = () => {
   const [status, setStatus] = React.useState<Boolean>(true);
   const [winner, setWinner] = React.useState<UserAction>(null);
   const [nextValue, setNextValue] = React.useState<UserAction>("X");
-
+  const [history, setHistory] = React.useState<Array<HistoryObj>>([]);
+  const [currentStep, setCurrentStep] = React.useState<number>(0);
+  const [historyMode, setHistoryMode] = React.useState<Boolean>(false);
   function selectSquare(square: number) {
     if (squares[square]) return;
     if (status) setStatus(false);
+    if (historyMode) {
+      setHistory(history.slice(0, currentStep + 1));
+      setHistoryMode(false);
+    }
 
     if (!winner) {
+      setCurrentStep((prev) => prev + 1);
       const squaresCopy = [...squares];
       squaresCopy[square] = nextValue;
       setSquares(squaresCopy);
@@ -52,9 +74,21 @@ const Board = () => {
     }
   }
 
+  React.useEffect(() => {
+    if (!historyMode) {
+      const historyCopy = [...history];
+      historyCopy.push({
+        valueArray: squares,
+        nextValue: nextValue,
+      });
+      setHistory(historyCopy);
+    }
+  }, [currentStep]);
+
   function restart() {
     setSquares(Array(9).fill(null));
     setWinner(null);
+    setHistory([]);
   }
 
   function renderSquare(i: number) {
@@ -64,6 +98,31 @@ const Board = () => {
       </StyledUserBoxButton>
     );
   }
+
+  const getMoveDetails = (event: React.MouseEvent) => {
+    setHistoryMode(true);
+    let index = +(event.target as HTMLInputElement).value;
+
+    setSquares(history[index].valueArray);
+    setNextValue(history[index].nextValue);
+    setCurrentStep(index);
+  };
+
+  const moves = history.map((element, index) => {
+    const description =
+      index === 0 ? "Go to game start" : `Go to step ${index}`;
+    const isCurrentStep = index === currentStep;
+    return (
+      <StyledUserBoxButton
+        key={index}
+        disabled={isCurrentStep}
+        value={index}
+        onClick={getMoveDetails}
+      >
+        {description}
+      </StyledUserBoxButton>
+    );
+  });
 
   function calculateWinner(squares: Array<UserAction>) {
     const lines = [
@@ -99,28 +158,31 @@ const Board = () => {
 
   return (
     <StyledMainContainer>
-      <StyledStatusSection>
-        {status ? "Game not started" : getStatus()}
-      </StyledStatusSection>
-      <div>
-        <StyledBoardRow>
-          {renderSquare(0)}
-          {renderSquare(1)}
-          {renderSquare(2)}
-        </StyledBoardRow>
-        <StyledBoardRow>
-          {renderSquare(3)}
-          {renderSquare(4)}
-          {renderSquare(5)}
-        </StyledBoardRow>
-        <StyledBoardRow>
-          {renderSquare(6)}
-          {renderSquare(7)}
-          {renderSquare(8)}
-        </StyledBoardRow>
-      </div>
+      <StyledPlaySection>
+        <StyledStatusSection>
+          {status ? "Game not started" : getStatus()}
+        </StyledStatusSection>
+        <div>
+          <StyledBoardRow>
+            {renderSquare(0)}
+            {renderSquare(1)}
+            {renderSquare(2)}
+          </StyledBoardRow>
+          <StyledBoardRow>
+            {renderSquare(3)}
+            {renderSquare(4)}
+            {renderSquare(5)}
+          </StyledBoardRow>
+          <StyledBoardRow>
+            {renderSquare(6)}
+            {renderSquare(7)}
+            {renderSquare(8)}
+          </StyledBoardRow>
+        </div>
+        <StyledRestartButton onClick={restart}>Restart</StyledRestartButton>
+      </StyledPlaySection>
 
-      <StyledRestartButton onClick={restart}>Restart</StyledRestartButton>
+      <StyledHistorySection>{moves}</StyledHistorySection>
     </StyledMainContainer>
   );
 };
