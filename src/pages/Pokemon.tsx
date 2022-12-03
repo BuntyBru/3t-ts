@@ -1,7 +1,12 @@
 import Layout from "../components/Layout";
+import PokemonForm from "../components/Pokemon/PokemonForm";
 
 const Pokemon = () => {
-  return <Layout>Pokemon</Layout>;
+  return (
+    <Layout>
+      <PokemonForm />
+    </Layout>
+  );
 };
 
 export default Pokemon;
