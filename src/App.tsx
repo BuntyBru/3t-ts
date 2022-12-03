@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css";
-import Game from "./components/Game";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./AppRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <Game />
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 
