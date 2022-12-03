@@ -1,11 +1,11 @@
-import Board from "./Board";
 import Layout from "./Layout";
+import Board from "./Board";
 
 const Game = () => {
   return (
-    <div className="App">
+    <Layout>
       <Board />
-    </div>
+    </Layout>
   );
 };
 

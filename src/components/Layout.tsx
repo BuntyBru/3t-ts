@@ -12,7 +12,7 @@ const StyledLayout = styled.div`
   color: white;
 `;
 
-const Layout = (children: any) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return <StyledLayout>{children}</StyledLayout>;
 };
 
