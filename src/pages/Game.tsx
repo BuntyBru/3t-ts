@@ -1,5 +1,5 @@
-import Layout from "./Layout";
-import Board from "./Board";
+import Layout from "../components/Layout";
+import Board from "../components/Board";
 
 const Game = () => {
   return (
