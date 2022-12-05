@@ -1,4 +1,4 @@
-import React, {  useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import styled from "styled-components";
 
 const StyledMessageBox = styled.div`
@@ -56,7 +56,6 @@ const ListMessages = ({ messages }: { messages: Messages[] }) => {
 
   useLayoutEffect(() => {
     if (containerRef.current) {
-      console.log("ehllo", containerRef.current.scrollHeight);
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   });
