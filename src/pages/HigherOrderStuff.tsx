@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import { CharacterType, fetchCharacter } from "../type/characters";
 import { CharacterInformation } from "../components/HocStuff/CharacterInformation";
+import SalutationHOC from "./SalutationHOC";
 
 type WithCharacterProps = {
   character: CharacterType;
@@ -10,9 +11,8 @@ type WithCharacterProps = {
 function withCharacter<T extends WithCharacterProps>(
   Component: React.ComponentType<T>
 ) {
-
   return (props: Omit<T, keyof WithCharacterProps>) => {
-    console.log(props)
+    console.log(props);
     const [character, setCharacter] = React.useState<CharacterType | null>(
       null
     );
@@ -36,6 +36,7 @@ const HigherOrderStuff = () => {
   return (
     <Layout>
       <CharacterInformationWithCharacter />
+      <SalutationHOC />
     </Layout>
   );
 };
