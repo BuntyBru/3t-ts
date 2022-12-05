@@ -3,6 +3,7 @@ import Game from "./pages/Game";
 import Tilt from "./pages/Tilt";
 import Pokemon from "./pages/Pokemon";
 import UseCallbackHook from "./pages/useCallbackHook";
+import HigherOrderStuff from "./pages/HigherOrderStuff";
 
 const AppRoutes = () => {
   return (
@@ -10,7 +11,8 @@ const AppRoutes = () => {
       <Route path="/" element={<Game />} />
       <Route path="/tilt" element={<Tilt />} />
       <Route path="/pokemon" element={<Pokemon />} />
-      <Route path="/use-callback-hook" element={<UseCallbackHook />} />
+      <Route path="/other-hook" element={<UseCallbackHook />} />
+      <Route path="/hoc-stuff" element={<HigherOrderStuff />} />
     </Routes>
   );
 };
