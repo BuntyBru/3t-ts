@@ -36,6 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Link to="/">TicTacToe</Link>
         <Link to="/tilt">Tilt</Link>
         <Link to="/pokemon">Pokemon</Link>
+        <Link to="/use-callback-hook">otherHook</Link>
       </StyledNavigationbar>
       {children}
     </StyledLayout>

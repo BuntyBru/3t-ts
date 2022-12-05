@@ -64,15 +64,17 @@ const PokemonForm = () => {
         <button>Search</button>
       </form>
 
-      <StyledDetailContainer>
-        <div className="image-section">
-          <img src={pokemonDetails?.image} alt={pokemonDetails?.name} />
-        </div>
-        <div className="details-section">
-          <p>{pokemonDetails?.name}</p>
-          <p>{pokemonDetails?.number}</p>
-        </div>
-      </StyledDetailContainer>
+      {pokemonDetails ? (
+        <StyledDetailContainer>
+          <div className="image-section">
+            <img src={pokemonDetails?.image} alt={pokemonDetails?.name} />
+          </div>
+          <div className="details-section">
+            <p>{pokemonDetails?.name}</p>
+            <p>{pokemonDetails?.number}</p>
+          </div>
+        </StyledDetailContainer>
+      ) : null}
     </StyledFormContainer>
   );
 };
