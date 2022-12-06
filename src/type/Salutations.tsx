@@ -7,3 +7,9 @@ export type NameTagProps = {
   user: UserModel;
   salutation: string;
 };
+
+export type UserNameTagProps = {
+  user: UserModel;
+  salutation: string;
+  extension: string;
+};
